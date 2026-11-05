@@ -137,9 +137,15 @@ when auth is enabled. Demo-grade user store; swap for a real IdP in production.
 
 ## Honest gaps (not claimed as done)
 Password hashing / real identity provider (credentials are env-var, demo-grade); Redis (PostgreSQL persistence is
-wired, Redis is not); Playwright browser tests; live Docker sandbox container run. The two Python "latest version"
-live-eval errors trace to version-table retrieval. Live-eval samples are small — indicative, not precise rates.
-125 automated tests pass.
+wired, Redis is not); live Docker sandbox container run. The two Python "latest version" live-eval errors trace to
+version-table retrieval. Live-eval samples are small — indicative, not precise rates.
+125 Python tests + 16 Playwright E2E tests pass.
+
+## End-to-end browser tests
+`cd apps/web && npm run e2e` (needs `npx playwright install chromium` once). Playwright starts the mock-mode API
+(no keys, deterministic) and the Next.js server, then drives a real browser: all 9 pages render their live data,
+navigation works, and the key flows (verify, context build, plugin toggle, auth-disabled state, providers in mock
+mode) are asserted. 16 tests, all passing.
 
 ## Demo video
 

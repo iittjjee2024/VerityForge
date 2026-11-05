@@ -16,3 +16,7 @@ bifrost/logs.db-wal
 *.db
 # Benchmark evidence caches are reproducible; keep results.json but not the raw caches
 benchmarks/live/evidence_cache_*.json
+# Playwright
+apps/web/test-results/
+apps/web/playwright-report/
+apps/web/.playwright/
