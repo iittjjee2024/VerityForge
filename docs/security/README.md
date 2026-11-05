@@ -42,7 +42,9 @@ Prompts, repository files, web pages, and model output are **untrusted data** an
   approval decisions are attributed). Demo-grade user store (`VERITYFORGE_USERS`); swap for a real IdP in production.
 
 ## Known gaps
-- Demo-grade credential store (env var); no password hashing/rotation/IdP yet.
+- Credentials are stored as PBKDF2-HMAC-SHA256 hashes (200k iterations, per-user random salt; generate with
+  `python apps/cli/hash_password.py`). Verification is constant-time and does equal work for unknown users to
+  avoid username enumeration by timing. Credential store is still env-var based; a real IdP / rotation is future work.
 - Task state is in-memory; telemetry + audit can persist to SQLite/PostgreSQL (`VERITYFORGE_PERSIST`).
 - Docker sandbox is verified live against a real daemon (`tests/integration/test_sandbox_docker.py`): non-root uid
   65534, read-only root filesystem, blocked network, writable /tmp, and approval-gating all confirmed. The test

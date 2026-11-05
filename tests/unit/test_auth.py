@@ -47,7 +47,7 @@ def test_expired_token_rejected(monkeypatch):
         auth.verify_token(tok)
 
 
-def test_authenticate_checks_credentials(monkeypatch):
+def test_authenticate_checks_credentials_legacy_plaintext(monkeypatch):
     monkeypatch.setenv("VERITYFORGE_AUTH_SECRET", "s3cret")
     monkeypatch.setenv("VERITYFORGE_USERS", "alice:wonderland, bob:builder")
     assert auth.verify_token(auth.authenticate("alice", "wonderland")) == "alice"
@@ -55,6 +55,30 @@ def test_authenticate_checks_credentials(monkeypatch):
         auth.authenticate("alice", "wrong")
     with pytest.raises(auth.AuthError):
         auth.authenticate("ghost", "x")
+
+
+def test_password_hashing_round_trip():
+    h = auth.hash_password("correct horse battery staple")
+    assert h.startswith("pbkdf2_sha256$") and auth.stored_is_hashed(h)
+    assert auth.verify_password("correct horse battery staple", h)
+    assert not auth.verify_password("wrong", h)
+
+
+def test_hash_is_salted_unique():
+    assert auth.hash_password("same") != auth.hash_password("same")  # random salt per call
+
+
+def test_authenticate_with_hashed_credentials(monkeypatch):
+    monkeypatch.setenv("VERITYFORGE_AUTH_SECRET", "s3cret")
+    h = auth.hash_password("wonderland")
+    monkeypatch.setenv("VERITYFORGE_USERS", f"alice:{h}")
+    assert auth.verify_token(auth.authenticate("alice", "wonderland")) == "alice"
+    with pytest.raises(auth.AuthError):
+        auth.authenticate("alice", "nope")
+
+
+def test_malformed_hash_fails_closed():
+    assert auth.verify_password("x", "pbkdf2_sha256$notanint$bad$bad") is False
 
 
 def _client():

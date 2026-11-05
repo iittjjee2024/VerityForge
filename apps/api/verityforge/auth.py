@@ -3,7 +3,9 @@
 Design:
 - Enforced in the backend via a FastAPI dependency, never in the UI.
 - Tokens are signed with VERITYFORGE_AUTH_SECRET; they carry the user id and an expiry, and are tamper-evident.
-- Users come from VERITYFORGE_USERS ("user:pass,user2:pass2"); passwords are compared in constant time.
+- Users come from VERITYFORGE_USERS ("user:hash,user2:hash2"). Passwords are stored as PBKDF2-HMAC-SHA256
+  hashes (self-describing: pbkdf2_sha256$iters$salt$hash). Legacy plaintext entries still work but are
+  discouraged; generate hashes with `python apps/cli/hash_password.py`. Verification is constant-time.
 - Dev/local fallback: if no secret AND no users are configured, auth is DISABLED and requests run as a local
   user. The moment either is set, auth is required. This never silently weakens a configured deployment.
 - Read-only GETs stay open; state-changing routes require a valid token. Which routes are protected is decided
@@ -79,11 +81,44 @@ def verify_token(token: str) -> str:
     return payload["sub"]
 
 
+_PBKDF2_ITERATIONS = 200_000  # OWASP-aligned work factor for PBKDF2-HMAC-SHA256
+_HASH_PREFIX = "pbkdf2_sha256$"
+# A fixed dummy hash so authenticate() does equal work for unknown users (mitigates username enumeration by timing).
+_DUMMY_HASH = _HASH_PREFIX + f"{_PBKDF2_ITERATIONS}$" + _b64(b"0" * 16) + "$" + _b64(b"0" * 32)
+
+
+def hash_password(password: str, *, iterations: int = _PBKDF2_ITERATIONS, salt: bytes | None = None) -> str:
+    """Return a self-describing PBKDF2-HMAC-SHA256 hash: pbkdf2_sha256$<iters>$<salt>$<hash>."""
+    salt = salt or os.urandom(16)
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, iterations)
+    return f"{_HASH_PREFIX}{iterations}${_b64(salt)}${_b64(dk)}"
+
+
+def verify_password(password: str, stored: str) -> bool:
+    """Constant-time verification. Accepts a PBKDF2 hash, or (legacy) a plaintext value for backward compat."""
+    if stored.startswith(_HASH_PREFIX):
+        try:
+            _, iters, salt_b64, hash_b64 = stored.split("$", 3)
+            dk = hashlib.pbkdf2_hmac("sha256", password.encode(), _unb64(salt_b64), int(iters))
+        except (ValueError, TypeError):
+            return False
+        return hmac.compare_digest(_b64(dk), hash_b64)
+    # Legacy plaintext entry (pre-hashing configs). Still constant-time; a warning is surfaced by stored_is_hashed().
+    return hmac.compare_digest(stored.encode(), password.encode())
+
+
+def stored_is_hashed(stored: str) -> bool:
+    return stored.startswith(_HASH_PREFIX)
+
+
 def authenticate(username: str, password: str) -> str:
-    """Validate credentials, return a token. Constant-time password compare."""
+    """Validate credentials, return a token. Hashes are PBKDF2; verification is constant-time and does equal
+    work for unknown users to avoid leaking which usernames exist."""
     users = _users()
-    stored = users.get(username, "")
-    ok = hmac.compare_digest(stored.encode(), password.encode()) and username in users
-    if not ok:
+    stored = users.get(username)
+    if stored is None:
+        verify_password(password, _DUMMY_HASH)  # waste equivalent time, then fail
+        raise AuthError("invalid credentials")
+    if not verify_password(password, stored):
         raise AuthError("invalid credentials")
     return issue_token(username)

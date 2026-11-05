@@ -130,16 +130,17 @@ Honest mapping; measured numbers, not aspirations.
 ## Authentication
 Signed bearer tokens (HMAC-SHA256, stdlib — no new dependency). `POST /auth/login` → token; write routes require it
 via a backend dependency; GETs stay open. Disabled by default for local dev, required the moment
-`VERITYFORGE_AUTH_SECRET`/`VERITYFORGE_USERS` are set. The authenticated user flows into the task scope and audit
-trail. Tamper-evident (constant-time compare), expiring tokens. 10 tests + live end-to-end check (no-token 401,
-login, authed write 202, bad-password 401, open GET 200). Web: token in localStorage, sign-in control shown only
-when auth is enabled. Demo-grade user store; swap for a real IdP in production.
+`VERITYFORGE_AUTH_SECRET`/`VERITYFORGE_USERS` are set. Passwords are stored as PBKDF2-HMAC-SHA256 hashes (200k
+iterations, per-user salt; `python apps/cli/hash_password.py` to generate); verification is constant-time and does
+equal work for unknown users. The authenticated user flows into the task scope and audit trail. Tamper-evident,
+expiring tokens. 14 tests + live end-to-end checks. Web: token in localStorage, sign-in control shown only when
+auth is enabled. Credential store is env-var based; a real IdP is future work.
 
 ## Honest gaps (not claimed as done)
-Password hashing / real identity provider (credentials are env-var, demo-grade); Redis (PostgreSQL persistence is
-wired, Redis is not). The two Python "latest version" live-eval errors trace to version-table retrieval.
-Live-eval samples are small — indicative, not precise rates.
-130 Python tests (incl. 5 live Docker sandbox) + 16 Playwright E2E tests pass.
+Real identity provider / credential rotation (credentials are PBKDF2-hashed but stored in an env var); Redis
+(PostgreSQL persistence is wired, Redis is not). The two Python "latest version" live-eval errors trace to
+version-table retrieval. Live-eval samples are small — indicative, not precise rates.
+134 Python tests (incl. 5 live Docker sandbox) + 16 Playwright E2E tests pass.
 
 ## End-to-end browser tests
 `cd apps/web && npm run e2e` (needs `npx playwright install chromium` once). Playwright starts the mock-mode API
