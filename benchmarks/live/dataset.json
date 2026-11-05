@@ -1,0 +1,339 @@
+{
+  "source": "https://endoflife.date/api/<product>.json",
+  "fetched_on": "2026-11-04",
+  "note": "Gold derived from the API on fetched_on. Gold 'true' means the claim is correct that day.",
+  "sets": {
+    "dev": [
+      {
+        "id": "python-supported-true",
+        "product": "Python",
+        "kind": "supported",
+        "gold": "true",
+        "claim": "Python 3.12 is still supported.",
+        "evidence": {
+          "cycle": "3.12",
+          "releaseDate": "2023-10-02",
+          "eol": "2028-10-31"
+        }
+      },
+      {
+        "id": "python-supported-false",
+        "product": "Python",
+        "kind": "supported",
+        "gold": "false",
+        "claim": "Python 3.9 is still supported.",
+        "evidence": {
+          "cycle": "3.9",
+          "releaseDate": "2020-10-05",
+          "eol": "2025-10-31"
+        }
+      },
+      {
+        "id": "python-latest-true",
+        "product": "Python",
+        "kind": "latest",
+        "gold": "true",
+        "claim": "The latest stable release of Python is 3.15.",
+        "evidence": {
+          "newest_cycle": "3.15",
+          "cycle": "3.15",
+          "releaseDate": "2026-10-09",
+          "eol": "2031-10-31"
+        }
+      },
+      {
+        "id": "nodejs-supported-true",
+        "product": "Node.js",
+        "kind": "supported",
+        "gold": "true",
+        "claim": "Node.js 22 is still supported.",
+        "evidence": {
+          "cycle": "22",
+          "releaseDate": "2024-04-24",
+          "eol": "2027-04-30"
+        }
+      },
+      {
+        "id": "nodejs-supported-false",
+        "product": "Node.js",
+        "kind": "supported",
+        "gold": "false",
+        "claim": "Node.js 23 is still supported.",
+        "evidence": {
+          "cycle": "23",
+          "releaseDate": "2024-10-16",
+          "eol": "2025-06-01"
+        }
+      },
+      {
+        "id": "nodejs-latest-false",
+        "product": "Node.js",
+        "kind": "latest",
+        "gold": "false",
+        "claim": "The latest stable release of Node.js is 24.",
+        "evidence": {
+          "newest_cycle": "26",
+          "cycle": "24",
+          "releaseDate": "2025-05-06",
+          "eol": "2028-04-30"
+        }
+      },
+      {
+        "id": "postgresql-supported-true",
+        "product": "PostgreSQL",
+        "kind": "supported",
+        "gold": "true",
+        "claim": "PostgreSQL 15 is still supported.",
+        "evidence": {
+          "cycle": "15",
+          "releaseDate": "2022-10-13",
+          "eol": "2027-11-11"
+        }
+      },
+      {
+        "id": "postgresql-supported-false",
+        "product": "PostgreSQL",
+        "kind": "supported",
+        "gold": "false",
+        "claim": "PostgreSQL 12 is still supported.",
+        "evidence": {
+          "cycle": "12",
+          "releaseDate": "2019-10-03",
+          "eol": "2024-11-21"
+        }
+      },
+      {
+        "id": "postgresql-latest-true",
+        "product": "PostgreSQL",
+        "kind": "latest",
+        "gold": "true",
+        "claim": "The latest stable release of PostgreSQL is 18.",
+        "evidence": {
+          "newest_cycle": "18",
+          "cycle": "18",
+          "releaseDate": "2025-09-25",
+          "eol": "2030-11-14"
+        }
+      },
+      {
+        "id": "django-supported-true",
+        "product": "Django",
+        "kind": "supported",
+        "gold": "true",
+        "claim": "Django 5.2 is still supported.",
+        "evidence": {
+          "cycle": "5.2",
+          "releaseDate": "2025-04-02",
+          "eol": "2028-04-30"
+        }
+      },
+      {
+        "id": "django-supported-false",
+        "product": "Django",
+        "kind": "supported",
+        "gold": "false",
+        "claim": "Django 5.0 is still supported.",
+        "evidence": {
+          "cycle": "5.0",
+          "releaseDate": "2023-12-04",
+          "eol": "2025-04-02"
+        }
+      },
+      {
+        "id": "django-latest-false",
+        "product": "Django",
+        "kind": "latest",
+        "gold": "false",
+        "claim": "The latest stable release of Django is 5.2.",
+        "evidence": {
+          "newest_cycle": "6.1",
+          "cycle": "5.2",
+          "releaseDate": "2025-04-02",
+          "eol": "2028-04-30"
+        }
+      },
+      {
+        "id": "control-0",
+        "product": "-",
+        "kind": "control",
+        "gold": "stable",
+        "claim": "Water boils at 100 degrees Celsius at sea level.",
+        "evidence": {}
+      },
+      {
+        "id": "control-1",
+        "product": "-",
+        "kind": "control",
+        "gold": "stable",
+        "claim": "The speed of light in a vacuum is about 299,792 kilometres per second.",
+        "evidence": {}
+      }
+    ],
+    "heldout": [
+      {
+        "id": "php-supported-true",
+        "product": "PHP",
+        "kind": "supported",
+        "gold": "true",
+        "claim": "PHP 8.3 is still supported.",
+        "evidence": {
+          "cycle": "8.3",
+          "releaseDate": "2023-11-23",
+          "eol": "2027-12-31"
+        }
+      },
+      {
+        "id": "php-supported-false",
+        "product": "PHP",
+        "kind": "supported",
+        "gold": "false",
+        "claim": "PHP 8.0 is still supported.",
+        "evidence": {
+          "cycle": "8.0",
+          "releaseDate": "2020-11-26",
+          "eol": "2023-11-26"
+        }
+      },
+      {
+        "id": "php-latest-true",
+        "product": "PHP",
+        "kind": "latest",
+        "gold": "true",
+        "claim": "The latest stable release of PHP is 8.5.",
+        "evidence": {
+          "newest_cycle": "8.5",
+          "cycle": "8.5",
+          "releaseDate": "2025-11-20",
+          "eol": "2029-12-31"
+        }
+      },
+      {
+        "id": "ruby-supported-true",
+        "product": "Ruby",
+        "kind": "supported",
+        "gold": "true",
+        "claim": "Ruby 3.3 is still supported.",
+        "evidence": {
+          "cycle": "3.3",
+          "releaseDate": "2023-12-25",
+          "eol": "2027-03-31"
+        }
+      },
+      {
+        "id": "ruby-supported-false",
+        "product": "Ruby",
+        "kind": "supported",
+        "gold": "false",
+        "claim": "Ruby 3.1 is still supported.",
+        "evidence": {
+          "cycle": "3.1",
+          "releaseDate": "2021-12-25",
+          "eol": "2025-03-26"
+        }
+      },
+      {
+        "id": "ruby-latest-false",
+        "product": "Ruby",
+        "kind": "latest",
+        "gold": "false",
+        "claim": "The latest stable release of Ruby is 3.3.",
+        "evidence": {
+          "newest_cycle": "4.0",
+          "cycle": "3.3",
+          "releaseDate": "2023-12-25",
+          "eol": "2027-03-31"
+        }
+      },
+      {
+        "id": "go-supported-true",
+        "product": "Go",
+        "kind": "supported",
+        "gold": "true",
+        "claim": "Go 1.26 is still supported.",
+        "evidence": {
+          "cycle": "1.26",
+          "releaseDate": "2026-02-10",
+          "eol": false
+        }
+      },
+      {
+        "id": "go-supported-false",
+        "product": "Go",
+        "kind": "supported",
+        "gold": "false",
+        "claim": "Go 1.23 is still supported.",
+        "evidence": {
+          "cycle": "1.23",
+          "releaseDate": "2024-08-13",
+          "eol": "2025-08-12"
+        }
+      },
+      {
+        "id": "go-latest-true",
+        "product": "Go",
+        "kind": "latest",
+        "gold": "true",
+        "claim": "The latest stable release of Go is 1.27.",
+        "evidence": {
+          "newest_cycle": "1.27",
+          "cycle": "1.27",
+          "releaseDate": "2026-08-19",
+          "eol": false
+        }
+      },
+      {
+        "id": "ubuntu-supported-true",
+        "product": "Ubuntu",
+        "kind": "supported",
+        "gold": "true",
+        "claim": "Ubuntu 24.04 is still supported.",
+        "evidence": {
+          "cycle": "24.04",
+          "releaseDate": "2024-04-25",
+          "eol": "2029-05-31"
+        }
+      },
+      {
+        "id": "ubuntu-supported-false",
+        "product": "Ubuntu",
+        "kind": "supported",
+        "gold": "false",
+        "claim": "Ubuntu 24.10 is still supported.",
+        "evidence": {
+          "cycle": "24.10",
+          "releaseDate": "2024-10-10",
+          "eol": "2025-07-10"
+        }
+      },
+      {
+        "id": "ubuntu-latest-false",
+        "product": "Ubuntu",
+        "kind": "latest",
+        "gold": "false",
+        "claim": "The latest stable release of Ubuntu is 25.10.",
+        "evidence": {
+          "newest_cycle": "26.10",
+          "cycle": "25.10",
+          "releaseDate": "2025-10-09",
+          "eol": "2026-07-01"
+        }
+      },
+      {
+        "id": "control-0",
+        "product": "-",
+        "kind": "control",
+        "gold": "stable",
+        "claim": "Paris is the capital city of France.",
+        "evidence": {}
+      },
+      {
+        "id": "control-1",
+        "product": "-",
+        "kind": "control",
+        "gold": "stable",
+        "claim": "A triangle has three sides and three angles.",
+        "evidence": {}
+      }
+    ]
+  }
+}

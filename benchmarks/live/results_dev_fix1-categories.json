@@ -1,0 +1,480 @@
+{
+  "set": "dev",
+  "label": "fix1-categories",
+  "run_at": "2026-11-04T17:21:29.981596+00:00",
+  "gold_fetched_on": "2026-11-04",
+  "repeats": 3,
+  "tavily_live_searches_this_run": 0,
+  "tavily_credits_reported": 0,
+  "judge_stats": {
+    "calls": 12,
+    "provider_errors": 5,
+    "unparseable": 0,
+    "unclear": 0,
+    "rejected_citation": 0,
+    "accepted": 7
+  },
+  "llm_requests": 7,
+  "llm_tokens": {
+    "input": 16871,
+    "output": 2859
+  },
+  "summary": {
+    "numeric": {
+      "time_sensitive_claim_runs": 12,
+      "correct": 2,
+      "wrong": 0,
+      "abstain": 10,
+      "missed": 0,
+      "accuracy_overall": 0.167,
+      "accuracy_when_decided": 1.0,
+      "coverage": 0.167,
+      "stale_passed_as_current_rate": 0.0,
+      "false_alarm_rate": 0.0,
+      "stale_detection_recall": 0.167,
+      "run_to_run_consistency": 1.0,
+      "controls_correct": "2/2"
+    },
+    "judge": {
+      "time_sensitive_claim_runs": 36,
+      "correct": 6,
+      "wrong": 4,
+      "abstain": 26,
+      "missed": 0,
+      "accuracy_overall": 0.167,
+      "accuracy_when_decided": 0.6,
+      "coverage": 0.278,
+      "stale_passed_as_current_rate": 0.0,
+      "false_alarm_rate": 0.222,
+      "stale_detection_recall": 0.333,
+      "run_to_run_consistency": 0.929,
+      "controls_correct": "6/6"
+    }
+  },
+  "claims": {
+    "numeric": [
+      {
+        "id": "python-supported-true",
+        "claim": "Python 3.12 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Python is still supported end of life support status official schedule"
+      },
+      {
+        "id": "python-supported-false",
+        "claim": "Python 3.9 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Python is still supported end of life support status official schedule"
+      },
+      {
+        "id": "python-latest-true",
+        "claim": "The latest stable release of Python is 3.15.",
+        "gold": "true",
+        "statuses": [
+          "Verified Current"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "1 source(s) state the claimed value.",
+        "query": "The latest stable release of Python is current version official documentation"
+      },
+      {
+        "id": "nodejs-supported-true",
+        "claim": "Node.js 22 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Node.js is still supported end of life support status official schedule"
+      },
+      {
+        "id": "nodejs-supported-false",
+        "claim": "Node.js 23 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Node.js is still supported end of life support status official schedule"
+      },
+      {
+        "id": "nodejs-latest-false",
+        "claim": "The latest stable release of Node.js is 24.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "The latest stable release of Node.js is 24 current version official documentation"
+      },
+      {
+        "id": "postgresql-supported-true",
+        "claim": "PostgreSQL 15 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "PostgreSQL is still supported end of life support status official schedule"
+      },
+      {
+        "id": "postgresql-supported-false",
+        "claim": "PostgreSQL 12 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "PostgreSQL is still supported end of life support status official schedule"
+      },
+      {
+        "id": "postgresql-latest-true",
+        "claim": "The latest stable release of PostgreSQL is 18.",
+        "gold": "true",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "The latest stable release of PostgreSQL is 18 current version official documentation"
+      },
+      {
+        "id": "django-supported-true",
+        "claim": "Django 5.2 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Django is still supported end of life support status official schedule"
+      },
+      {
+        "id": "django-supported-false",
+        "claim": "Django 5.0 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Django is still supported end of life support status official schedule"
+      },
+      {
+        "id": "django-latest-false",
+        "claim": "The latest stable release of Django is 5.2.",
+        "gold": "false",
+        "statuses": [
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Sources report different value(s) ['4.2'] than the claim. | fix: Current sources (https://django.readthedocs.io/en/6.0.x/internals/howto-release-django.html) list 4.2.",
+        "query": "The latest stable release of Django is current version official documentation"
+      },
+      {
+        "id": "control-0",
+        "claim": "Water boils at 100 degrees Celsius at sea level.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      },
+      {
+        "id": "control-1",
+        "claim": "The speed of light in a vacuum is about 299,792 kilometres per second.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      }
+    ],
+    "judge": [
+      {
+        "id": "python-supported-true",
+        "claim": "Python 3.12 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Verification Failed",
+          "Verification Failed",
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Python is still supported end of life support status official schedule"
+      },
+      {
+        "id": "python-supported-false",
+        "claim": "Python 3.9 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Verification Failed",
+          "Verification Failed",
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Python is still supported end of life support status official schedule"
+      },
+      {
+        "id": "python-latest-true",
+        "claim": "The latest stable release of Python is 3.15.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale",
+          "Potentially Stale",
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "wrong",
+          "wrong",
+          "wrong"
+        ],
+        "notes": "Judged by LLM (groq/openai/gpt-oss-20b) because no comparable numeric value was found. The cited text was verified to appear in the source. | fix: Source https://www.liquidweb.com/blog/latest-python-version states: \"The latest stable version of Python is 3.14 Python 3.14 was released on",
+        "query": "The latest stable release of Python is current version official documentation"
+      },
+      {
+        "id": "nodejs-supported-true",
+        "claim": "Node.js 22 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Verification Failed",
+          "Verification Failed",
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Node.js is still supported end of life support status official schedule"
+      },
+      {
+        "id": "nodejs-supported-false",
+        "claim": "Node.js 23 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Verification Failed",
+          "Verification Failed",
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Node.js is still supported end of life support status official schedule"
+      },
+      {
+        "id": "nodejs-latest-false",
+        "claim": "The latest stable release of Node.js is 24.",
+        "gold": "false",
+        "statuses": [
+          "Contradicted",
+          "Contradicted",
+          "Contradicted"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Judged by LLM (groq/openai/gpt-oss-20b) because no comparable numeric value was found. The cited text was verified to appear in the source. | fix: Source https://www.herodevs.com/blog-posts/node-js-end-of-life-dates-you-should-be-aware-of states: \"The only fully supported lines today ar",
+        "query": "The latest stable release of Node.js is 24 current version official documentation"
+      },
+      {
+        "id": "postgresql-supported-true",
+        "claim": "PostgreSQL 15 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Verification Failed",
+          "Verification Failed",
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "PostgreSQL is still supported end of life support status official schedule"
+      },
+      {
+        "id": "postgresql-supported-false",
+        "claim": "PostgreSQL 12 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Verification Failed",
+          "Verification Failed",
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "PostgreSQL is still supported end of life support status official schedule"
+      },
+      {
+        "id": "postgresql-latest-true",
+        "claim": "The latest stable release of PostgreSQL is 18.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale",
+          "Insufficient Evidence",
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "wrong",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Judged by LLM (groq/openai/gpt-oss-20b) because no comparable numeric value was found. The cited text was verified to appear in the source.",
+        "query": "The latest stable release of PostgreSQL is 18 current version official documentation"
+      },
+      {
+        "id": "django-supported-true",
+        "claim": "Django 5.2 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Verification Failed",
+          "Verification Failed",
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Django is still supported end of life support status official schedule"
+      },
+      {
+        "id": "django-supported-false",
+        "claim": "Django 5.0 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Verification Failed",
+          "Verification Failed",
+          "Verification Failed"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Live research unavailable: replay-only: query not in evidence cache. Not treated as false.",
+        "query": "Django is still supported end of life support status official schedule"
+      },
+      {
+        "id": "django-latest-false",
+        "claim": "The latest stable release of Django is 5.2.",
+        "gold": "false",
+        "statuses": [
+          "Potentially Stale",
+          "Potentially Stale",
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Sources report different value(s) ['4.2'] than the claim. | fix: Current sources (https://django.readthedocs.io/en/6.0.x/internals/howto-release-django.html) list 4.2.",
+        "query": "The latest stable release of Django is current version official documentation"
+      },
+      {
+        "id": "control-0",
+        "claim": "Water boils at 100 degrees Celsius at sea level.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive",
+          "Not Time-Sensitive",
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      },
+      {
+        "id": "control-1",
+        "claim": "The speed of light in a vacuum is about 299,792 kilometres per second.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive",
+          "Not Time-Sensitive",
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      }
+    ]
+  }
+}

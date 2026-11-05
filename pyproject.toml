@@ -1,0 +1,22 @@
+[project]
+name = "verityforge"
+version = "0.1.0"
+description = "Token-efficient coding agent and stale-answer detection platform"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi==0.115.6",
+  "uvicorn==0.34.0",
+  "httpx==0.28.1",
+  "pydantic==2.10.4",
+]
+
+# Persistence backends: SQLite needs nothing (stdlib). PostgreSQL needs psycopg:
+#   pip install "psycopg[binary]==3.2.3"
+# CLI: run `python apps/cli/verityforge_cli.py <command>` (thin client over the REST API).
+
+[project.optional-dependencies]
+dev = ["pytest==8.3.4"]
+
+[tool.pytest.ini_options]
+pythonpath = ["apps/api", "packages", "plugins", "apps/cli"]
+testpaths = ["tests"]

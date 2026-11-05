@@ -1,0 +1,29 @@
+{
+  "cases": 15,
+  "gold_claims": 15,
+  "extraction_precision": 1.0,
+  "extraction_recall": 1.0,
+  "status_accuracy": 0.933,
+  "stale_precision": 1.0,
+  "stale_recall": 0.833,
+  "false_positive_rate": 0.0,
+  "false_negative_rate": 0.167,
+  "evidence_coverage": 0.917,
+  "calibration": {
+    "score<60": {
+      "n": 4,
+      "status_accuracy": 0.75
+    },
+    "score>=60": {
+      "n": 8,
+      "status_accuracy": 1.0
+    }
+  },
+  "failures": [
+    [
+      "leadership-changed",
+      "status 'Insufficient Evidence' not in ['Contradicted', 'Potentially Stale']",
+      "The CEO of Acme Corp is Jane Doe"
+    ]
+  ]
+}

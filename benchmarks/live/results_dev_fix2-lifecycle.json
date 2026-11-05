@@ -1,0 +1,480 @@
+{
+  "set": "dev",
+  "label": "fix2-lifecycle",
+  "run_at": "2026-11-04T17:30:29.922212+00:00",
+  "gold_fetched_on": "2026-11-04",
+  "repeats": 3,
+  "tavily_live_searches_this_run": 4,
+  "tavily_credits_reported": 4.0,
+  "judge_stats": {
+    "calls": 36,
+    "provider_errors": 10,
+    "unparseable": 0,
+    "unclear": 3,
+    "rejected_citation": 10,
+    "accepted": 13
+  },
+  "llm_requests": 26,
+  "llm_tokens": {
+    "input": 56483,
+    "output": 4340
+  },
+  "summary": {
+    "numeric": {
+      "time_sensitive_claim_runs": 12,
+      "correct": 3,
+      "wrong": 2,
+      "abstain": 7,
+      "missed": 0,
+      "accuracy_overall": 0.25,
+      "accuracy_when_decided": 0.6,
+      "coverage": 0.417,
+      "stale_passed_as_current_rate": 0.0,
+      "false_alarm_rate": 0.333,
+      "stale_detection_recall": 0.333,
+      "run_to_run_consistency": 1.0,
+      "controls_correct": "2/2"
+    },
+    "judge": {
+      "time_sensitive_claim_runs": 36,
+      "correct": 17,
+      "wrong": 7,
+      "abstain": 12,
+      "missed": 0,
+      "accuracy_overall": 0.472,
+      "accuracy_when_decided": 0.708,
+      "coverage": 0.667,
+      "stale_passed_as_current_rate": 0.0,
+      "false_alarm_rate": 0.389,
+      "stale_detection_recall": 0.611,
+      "run_to_run_consistency": 0.857,
+      "controls_correct": "6/6"
+    }
+  },
+  "claims": {
+    "numeric": [
+      {
+        "id": "python-supported-true",
+        "claim": "Python 3.12 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "wrong"
+        ],
+        "notes": "Sources report different value(s) ['3.11', '3.14', '3.9'] than the claim. | fix: Current sources (http://forum.exercism.org/t/python-version-end-of-life/19835) list 3.11.",
+        "query": "Python is still supported end of life support status official schedule"
+      },
+      {
+        "id": "python-supported-false",
+        "claim": "Python 3.9 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources conflict: 1 support and 1 contradict the claim. Both sides are listed; no winner is assumed.",
+        "query": "Python is still supported end of life support status official schedule"
+      },
+      {
+        "id": "python-latest-true",
+        "claim": "The latest stable release of Python is 3.15.",
+        "gold": "true",
+        "statuses": [
+          "Verified Current"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "1 source(s) state the claimed value.",
+        "query": "The latest stable release of Python is current version official documentation"
+      },
+      {
+        "id": "nodejs-supported-true",
+        "claim": "Node.js 22 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "Node.js is still supported end of life support status official schedule"
+      },
+      {
+        "id": "nodejs-supported-false",
+        "claim": "Node.js 23 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "Node.js is still supported end of life support status official schedule"
+      },
+      {
+        "id": "nodejs-latest-false",
+        "claim": "The latest stable release of Node.js is 24.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "The latest stable release of Node.js is 24 current version official documentation"
+      },
+      {
+        "id": "postgresql-supported-true",
+        "claim": "PostgreSQL 15 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "PostgreSQL is still supported end of life support status official schedule"
+      },
+      {
+        "id": "postgresql-supported-false",
+        "claim": "PostgreSQL 12 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "PostgreSQL is still supported end of life support status official schedule"
+      },
+      {
+        "id": "postgresql-latest-true",
+        "claim": "The latest stable release of PostgreSQL is 18.",
+        "gold": "true",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "The latest stable release of PostgreSQL is 18 current version official documentation"
+      },
+      {
+        "id": "django-supported-true",
+        "claim": "Django 5.2 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "wrong"
+        ],
+        "notes": "Sources report different value(s) ['4.2', '5.1'] than the claim. | fix: Current sources (https://www.herodevs.com/blog-posts/django-4-2-is-reaching-end-of-life) list 4.2.",
+        "query": "Django is still supported end of life support status official schedule"
+      },
+      {
+        "id": "django-supported-false",
+        "claim": "Django 5.0 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Sources report different value(s) ['4.2', '5.1'] than the claim. | fix: Current sources (https://www.herodevs.com/blog-posts/django-4-2-is-reaching-end-of-life) list 4.2.",
+        "query": "Django is still supported end of life support status official schedule"
+      },
+      {
+        "id": "django-latest-false",
+        "claim": "The latest stable release of Django is 5.2.",
+        "gold": "false",
+        "statuses": [
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Sources report different value(s) ['4.2'] than the claim. | fix: Current sources (https://django.readthedocs.io/en/6.0.x/internals/howto-release-django.html) list 4.2.",
+        "query": "The latest stable release of Django is current version official documentation"
+      },
+      {
+        "id": "control-0",
+        "claim": "Water boils at 100 degrees Celsius at sea level.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      },
+      {
+        "id": "control-1",
+        "claim": "The speed of light in a vacuum is about 299,792 kilometres per second.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      }
+    ],
+    "judge": [
+      {
+        "id": "python-supported-true",
+        "claim": "Python 3.12 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale",
+          "Potentially Stale",
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "wrong",
+          "wrong",
+          "wrong"
+        ],
+        "notes": "Sources report different value(s) ['3.11', '3.14', '3.9'] than the claim. | fix: Current sources (http://forum.exercism.org/t/python-version-end-of-life/19835) list 3.11.",
+        "query": "Python is still supported end of life support status official schedule"
+      },
+      {
+        "id": "python-supported-false",
+        "claim": "Python 3.9 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence",
+          "Insufficient Evidence",
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Sources conflict: 1 support and 1 contradict the claim. Both sides are listed; no winner is assumed.",
+        "query": "Python is still supported end of life support status official schedule"
+      },
+      {
+        "id": "python-latest-true",
+        "claim": "The latest stable release of Python is 3.15.",
+        "gold": "true",
+        "statuses": [
+          "Verified Current",
+          "Verified Current",
+          "Verified Current"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "1 source(s) state the claimed value.",
+        "query": "The latest stable release of Python is current version official documentation"
+      },
+      {
+        "id": "nodejs-supported-true",
+        "claim": "Node.js 22 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Insufficient Evidence",
+          "Insufficient Evidence",
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "Node.js is still supported end of life support status official schedule"
+      },
+      {
+        "id": "nodejs-supported-false",
+        "claim": "Node.js 23 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence",
+          "Insufficient Evidence",
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "Node.js is still supported end of life support status official schedule"
+      },
+      {
+        "id": "nodejs-latest-false",
+        "claim": "The latest stable release of Node.js is 24.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence",
+          "Potentially Stale",
+          "Contradicted"
+        ],
+        "outcomes": [
+          "abstain",
+          "correct",
+          "correct"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "The latest stable release of Node.js is 24 current version official documentation"
+      },
+      {
+        "id": "postgresql-supported-true",
+        "claim": "PostgreSQL 15 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Verified Current",
+          "Verified Current",
+          "Verified Current"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Judged by LLM (groq/openai/gpt-oss-20b) because no comparable numeric value was found. The cited text was verified to appear in the source.",
+        "query": "PostgreSQL is still supported end of life support status official schedule"
+      },
+      {
+        "id": "postgresql-supported-false",
+        "claim": "PostgreSQL 12 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Contradicted",
+          "Contradicted",
+          "Contradicted"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Judged by LLM (groq/openai/gpt-oss-20b) because no comparable numeric value was found. The cited text was verified to appear in the source. | fix: Source https://tuxcare.com/blog/postgresql-12-end-of-life states: \"PostgreSQL 12 reached its official end of support date on November 14, 20",
+        "query": "PostgreSQL is still supported end of life support status official schedule"
+      },
+      {
+        "id": "postgresql-latest-true",
+        "claim": "The latest stable release of PostgreSQL is 18.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale",
+          "Insufficient Evidence",
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "wrong",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Judged by LLM (groq/openai/gpt-oss-20b) because no comparable numeric value was found. The cited text was verified to appear in the source.",
+        "query": "The latest stable release of PostgreSQL is 18 current version official documentation"
+      },
+      {
+        "id": "django-supported-true",
+        "claim": "Django 5.2 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale",
+          "Potentially Stale",
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "wrong",
+          "wrong",
+          "wrong"
+        ],
+        "notes": "Sources report different value(s) ['4.2', '5.1'] than the claim. | fix: Current sources (https://www.herodevs.com/blog-posts/django-4-2-is-reaching-end-of-life) list 4.2.",
+        "query": "Django is still supported end of life support status official schedule"
+      },
+      {
+        "id": "django-supported-false",
+        "claim": "Django 5.0 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Potentially Stale",
+          "Potentially Stale",
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Judged by LLM (groq/openai/gpt-oss-20b) because no comparable numeric value was found. The cited text was verified to appear in the source. | fix: Source https://tuxcare.com/blog/django-eol-guide-2026 states: \"TuxCare currently supports an extensive list of EOL Django versions (includin",
+        "query": "Django is still supported end of life support status official schedule"
+      },
+      {
+        "id": "django-latest-false",
+        "claim": "The latest stable release of Django is 5.2.",
+        "gold": "false",
+        "statuses": [
+          "Potentially Stale",
+          "Potentially Stale",
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Sources report different value(s) ['4.2'] than the claim. | fix: Current sources (https://django.readthedocs.io/en/6.0.x/internals/howto-release-django.html) list 4.2.",
+        "query": "The latest stable release of Django is current version official documentation"
+      },
+      {
+        "id": "control-0",
+        "claim": "Water boils at 100 degrees Celsius at sea level.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive",
+          "Not Time-Sensitive",
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      },
+      {
+        "id": "control-1",
+        "claim": "The speed of light in a vacuum is about 299,792 kilometres per second.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive",
+          "Not Time-Sensitive",
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      }
+    ]
+  }
+}

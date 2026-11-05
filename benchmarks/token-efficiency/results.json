@@ -1,0 +1,30 @@
+{
+  "mode": "scripted",
+  "rows": [
+    {
+      "repo_files": 12,
+      "baseline_input": 4316,
+      "optimized_input": 140,
+      "savings_pct": 96.8,
+      "baseline_completed": true,
+      "optimized_completed": true
+    },
+    {
+      "repo_files": 52,
+      "baseline_input": 21686,
+      "optimized_input": 140,
+      "savings_pct": 99.4,
+      "baseline_completed": true,
+      "optimized_completed": true
+    },
+    {
+      "repo_files": 202,
+      "baseline_input": 88348,
+      "optimized_input": 141,
+      "savings_pct": 99.8,
+      "baseline_completed": true,
+      "optimized_completed": true
+    }
+  ],
+  "note": "Scripted model: measures prompt-size reduction with real test execution, not real-model correctness. See --live for provider-reported numbers."
+}

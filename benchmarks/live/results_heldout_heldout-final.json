@@ -1,0 +1,480 @@
+{
+  "set": "heldout",
+  "label": "heldout-final",
+  "run_at": "2026-11-05T13:37:20.731391+00:00",
+  "gold_fetched_on": "2026-11-04",
+  "repeats": 3,
+  "tavily_live_searches_this_run": 8,
+  "tavily_credits_reported": 8.0,
+  "judge_stats": {
+    "calls": 36,
+    "provider_errors": 0,
+    "unparseable": 0,
+    "unclear": 6,
+    "rejected_citation": 12,
+    "accepted": 18
+  },
+  "llm_requests": 36,
+  "llm_tokens": {
+    "input": 88152,
+    "output": 2971
+  },
+  "summary": {
+    "numeric": {
+      "time_sensitive_claim_runs": 12,
+      "correct": 3,
+      "wrong": 4,
+      "abstain": 5,
+      "missed": 0,
+      "accuracy_overall": 0.25,
+      "accuracy_when_decided": 0.429,
+      "coverage": 0.583,
+      "stale_passed_as_current_rate": 0.0,
+      "false_alarm_rate": 0.667,
+      "stale_detection_recall": 0.5,
+      "run_to_run_consistency": 1.0,
+      "controls_correct": "2/2"
+    },
+    "judge": {
+      "time_sensitive_claim_runs": 36,
+      "correct": 15,
+      "wrong": 6,
+      "abstain": 15,
+      "missed": 0,
+      "accuracy_overall": 0.417,
+      "accuracy_when_decided": 0.714,
+      "coverage": 0.583,
+      "stale_passed_as_current_rate": 0.0,
+      "false_alarm_rate": 0.333,
+      "stale_detection_recall": 0.5,
+      "run_to_run_consistency": 1.0,
+      "controls_correct": "6/6"
+    }
+  },
+  "claims": {
+    "numeric": [
+      {
+        "id": "php-supported-true",
+        "claim": "PHP 8.3 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "PHP is still supported end of life support status official schedule"
+      },
+      {
+        "id": "php-supported-false",
+        "claim": "PHP 8.0 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "PHP is still supported end of life support status official schedule"
+      },
+      {
+        "id": "php-latest-true",
+        "claim": "The latest stable release of PHP is 8.5.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "wrong"
+        ],
+        "notes": "1 source(s) state the claimed value. Best source is old relative to the freshness window.",
+        "query": "The latest stable release of PHP is current version official documentation"
+      },
+      {
+        "id": "ruby-supported-true",
+        "claim": "Ruby 3.3 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Contradicted"
+        ],
+        "outcomes": [
+          "wrong"
+        ],
+        "notes": "Sources report different value(s) ['3.0', '3.4', '4.0'] than the claim. | fix: Current sources (https://eolrisk.com/ruby) list 4.0.",
+        "query": "Ruby is still supported end of life support status official schedule"
+      },
+      {
+        "id": "ruby-supported-false",
+        "claim": "Ruby 3.1 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Contradicted"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Sources report different value(s) ['3.0', '3.4', '4.0'] than the claim. | fix: Current sources (https://eolrisk.com/ruby) list 4.0.",
+        "query": "Ruby is still supported end of life support status official schedule"
+      },
+      {
+        "id": "ruby-latest-false",
+        "claim": "The latest stable release of Ruby is 3.3.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "The latest stable release of Ruby is current version official documentation"
+      },
+      {
+        "id": "go-supported-true",
+        "claim": "Go 1.26 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "Go is still supported end of life support status official schedule"
+      },
+      {
+        "id": "go-supported-false",
+        "claim": "Go 1.23 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "Go is still supported end of life support status official schedule"
+      },
+      {
+        "id": "go-latest-true",
+        "claim": "The latest stable release of Go is 1.27.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "wrong"
+        ],
+        "notes": "Sources report different value(s) ['1.25'] than the claim. | fix: Current sources (https://www.youtube.com/watch?v=iK4evFHCzWw&vl=en-US) list 1.25.",
+        "query": "The latest stable release of Go is current version official documentation"
+      },
+      {
+        "id": "ubuntu-supported-true",
+        "claim": "Ubuntu 24.04 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "wrong"
+        ],
+        "notes": "Sources report different value(s) ['14.04', '16.04', '18.04'] than the claim. | fix: Current sources (https://askubuntu.com/questions/1185962/end-of-standard-support-and-end-of-life) list 16.04.",
+        "query": "Ubuntu is still supported end of life support status official schedule"
+      },
+      {
+        "id": "ubuntu-supported-false",
+        "claim": "Ubuntu 24.10 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Sources report different value(s) ['14.04', '16.04', '18.04'] than the claim. | fix: Current sources (https://askubuntu.com/questions/1185962/end-of-standard-support-and-end-of-life) list 16.04.",
+        "query": "Ubuntu is still supported end of life support status official schedule"
+      },
+      {
+        "id": "ubuntu-latest-false",
+        "claim": "The latest stable release of Ubuntu is 25.10.",
+        "gold": "false",
+        "statuses": [
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Sources report different value(s) ['24.04', '26.04', '7.0'] than the claim. | fix: Current sources (https://www.ituonline.com/blogs/how-to-identify-the-latest-ubuntu-os-version-and-upgrade-safely) list 24.04.",
+        "query": "The latest stable release of Ubuntu is current version official documentation"
+      },
+      {
+        "id": "control-0",
+        "claim": "Paris is the capital city of France.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      },
+      {
+        "id": "control-1",
+        "claim": "A triangle has three sides and three angles.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      }
+    ],
+    "judge": [
+      {
+        "id": "php-supported-true",
+        "claim": "PHP 8.3 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Insufficient Evidence",
+          "Insufficient Evidence",
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "PHP is still supported end of life support status official schedule"
+      },
+      {
+        "id": "php-supported-false",
+        "claim": "PHP 8.0 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence",
+          "Insufficient Evidence",
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "PHP is still supported end of life support status official schedule"
+      },
+      {
+        "id": "php-latest-true",
+        "claim": "The latest stable release of PHP is 8.5.",
+        "gold": "true",
+        "statuses": [
+          "Verified Current",
+          "Verified Current",
+          "Verified Current"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Judged by LLM (gemini/gemini-flash-lite-latest) because no comparable numeric value was found. The cited text was verified to appear in the source.",
+        "query": "The latest stable release of PHP is current version official documentation"
+      },
+      {
+        "id": "ruby-supported-true",
+        "claim": "Ruby 3.3 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Verified Current",
+          "Verified Current",
+          "Verified Current"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Two-step lifecycle check (gemini/gemini-flash-lite-latest): extracted end-of-life = 2027-03-31, compared to 2026-11-05 in code. Still supported.",
+        "query": "Ruby is still supported end of life support status official schedule"
+      },
+      {
+        "id": "ruby-supported-false",
+        "claim": "Ruby 3.1 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Contradicted",
+          "Contradicted",
+          "Contradicted"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Two-step lifecycle check (gemini/gemini-flash-lite-latest): extracted end-of-life = 2025-03-26, compared to 2026-11-05 in code. Past end-of-life. | fix: Reached end-of-life 2025-03-26; source https://apollotechstudio.com/guides/ruby-end-of-life states: \"3.1 | EOL | 2025-03-26\"",
+        "query": "Ruby is still supported end of life support status official schedule"
+      },
+      {
+        "id": "ruby-latest-false",
+        "claim": "The latest stable release of Ruby is 3.3.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence",
+          "Insufficient Evidence",
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "The latest stable release of Ruby is current version official documentation"
+      },
+      {
+        "id": "go-supported-true",
+        "claim": "Go 1.26 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Insufficient Evidence",
+          "Insufficient Evidence",
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "Go is still supported end of life support status official schedule"
+      },
+      {
+        "id": "go-supported-false",
+        "claim": "Go 1.23 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Insufficient Evidence",
+          "Insufficient Evidence",
+          "Insufficient Evidence"
+        ],
+        "outcomes": [
+          "abstain",
+          "abstain",
+          "abstain"
+        ],
+        "notes": "Sources found, but none state a comparable value; cannot confirm or refute.",
+        "query": "Go is still supported end of life support status official schedule"
+      },
+      {
+        "id": "go-latest-true",
+        "claim": "The latest stable release of Go is 1.27.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale",
+          "Potentially Stale",
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "wrong",
+          "wrong",
+          "wrong"
+        ],
+        "notes": "Judged by LLM (gemini/gemini-flash-lite-latest) because no comparable numeric value was found. The cited text was verified to appear in the source. | fix: Source https://www.youtube.com/watch?v=iK4evFHCzWw&vl=en-US states: \"Let's talk about the latest release 1.25.\"",
+        "query": "The latest stable release of Go is current version official documentation"
+      },
+      {
+        "id": "ubuntu-supported-true",
+        "claim": "Ubuntu 24.04 is still supported.",
+        "gold": "true",
+        "statuses": [
+          "Potentially Stale",
+          "Potentially Stale",
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "wrong",
+          "wrong",
+          "wrong"
+        ],
+        "notes": "Sources report different value(s) ['14.04', '16.04', '18.04'] than the claim. | fix: Current sources (https://askubuntu.com/questions/1185962/end-of-standard-support-and-end-of-life) list 16.04.",
+        "query": "Ubuntu is still supported end of life support status official schedule"
+      },
+      {
+        "id": "ubuntu-supported-false",
+        "claim": "Ubuntu 24.10 is still supported.",
+        "gold": "false",
+        "statuses": [
+          "Contradicted",
+          "Contradicted",
+          "Contradicted"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Two-step lifecycle check (gemini/gemini-flash-lite-latest): extracted end-of-life = 2025-07-10, compared to 2026-11-05 in code. Past end-of-life. | fix: Reached end-of-life 2025-07-10; source https://www.isitpatched.com/eol/ubuntu states: \"Ubuntu 24.10 | 24.10 | 10 Jul 2025 | End of life\"",
+        "query": "Ubuntu is still supported end of life support status official schedule"
+      },
+      {
+        "id": "ubuntu-latest-false",
+        "claim": "The latest stable release of Ubuntu is 25.10.",
+        "gold": "false",
+        "statuses": [
+          "Potentially Stale",
+          "Potentially Stale",
+          "Potentially Stale"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Judged by LLM (gemini/gemini-flash-lite-latest) because no comparable numeric value was found. The cited text was verified to appear in the source. | fix: Source https://linuxize.com/post/how-to-check-your-ubuntu-version states: \"The latest release is Ubuntu 26.04 LTS (Resolute Raccoon), releas",
+        "query": "The latest stable release of Ubuntu is current version official documentation"
+      },
+      {
+        "id": "control-0",
+        "claim": "Paris is the capital city of France.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive",
+          "Not Time-Sensitive",
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      },
+      {
+        "id": "control-1",
+        "claim": "A triangle has three sides and three angles.",
+        "gold": "stable",
+        "statuses": [
+          "Not Time-Sensitive",
+          "Not Time-Sensitive",
+          "Not Time-Sensitive"
+        ],
+        "outcomes": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "notes": "Category policy classifies this claim as stable; no live check performed.",
+        "query": null
+      }
+    ]
+  }
+}

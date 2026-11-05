@@ -1,0 +1,17 @@
+{
+  "queries": 14,
+  "systems": {
+    "keyword-overlap (old)": {
+      "recall@3": 0.143,
+      "MRR@10": 0.143
+    },
+    "BM25 chunks": {
+      "recall@3": 1.0,
+      "MRR@10": 0.964
+    },
+    "hybrid BM25 + n-gram vectors (RRF)": {
+      "recall@3": 1.0,
+      "MRR@10": 0.929
+    }
+  }
+}

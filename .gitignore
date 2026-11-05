@@ -1,0 +1,18 @@
+.venv/
+__pycache__/
+node_modules/
+.env
+*.pyc
+.pytest_cache/
+.next/
+dist/
+build/
+.vscode/
+# Bifrost runtime data (request logs / local DB) — may contain request metadata
+bifrost/logs.db
+bifrost/logs.db-shm
+bifrost/logs.db-wal
+# Local persistence DBs
+*.db
+# Benchmark evidence caches are reproducible; keep results.json but not the raw caches
+benchmarks/live/evidence_cache_*.json
