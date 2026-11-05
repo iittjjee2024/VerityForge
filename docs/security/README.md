@@ -44,4 +44,6 @@ Prompts, repository files, web pages, and model output are **untrusted data** an
 ## Known gaps
 - Demo-grade credential store (env var); no password hashing/rotation/IdP yet.
 - Task state is in-memory; telemetry + audit can persist to SQLite/PostgreSQL (`VERITYFORGE_PERSIST`).
-- Docker sandbox command is unit-tested for construction; a live container run was not exercised in this environment.
+- Docker sandbox is verified live against a real daemon (`tests/integration/test_sandbox_docker.py`): non-root uid
+  65534, read-only root filesystem, blocked network, writable /tmp, and approval-gating all confirmed. The test
+  auto-skips when no Docker daemon is reachable, so CI without Docker stays green.

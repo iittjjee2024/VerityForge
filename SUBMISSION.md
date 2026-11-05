@@ -67,7 +67,7 @@ At about 12 files and above, every baseline run was rejected by the provider as 
 | Coding agent end to end with a real model | Tested live (small tasks, host pytest) |
 | LLM judge and query expansion | Tested live, on synthetic evidence |
 | Tavily live search + LLM judge | Evaluated against independent ground truth (endoflife.date API) on a held-out product set never used during development. Judge model gemini-flash-lite-latest via Bifrost. Held-out: accuracy-when-decided 0.714, coverage 0.583, **stale-claim-passed-as-current 0.0**, false-alarm rate halved vs the no-LLM baseline, controls 6/6, run-to-run consistency 1.0. Small sample (12 time-sensitive claims x 3 repeats) — indicative, not a precise rate. See `benchmarks/live/FINDINGS.md`. |
-| Docker sandbox execution | Command construction tested; no container run (daemon unavailable) |
+| Docker sandbox execution | Verified live against a real daemon (5 integration tests): non-root, read-only root, no network, writable /tmp, approval-gated. Auto-skips without Docker. |
 | Cross-provider failover | Tested with mocks only (one live provider configured) |
 | Local-model path for confidential repos | Tested with mocks only |
 | Dashboard | All 9 pages (Dashboard, Coding Workspace, Answer Verification, Model & Provider Management, Token & Cost Analytics, Evaluation Center, Security & Permissions, Project Repository, Settings & Extensions); typechecks, production build passes, pages + API proxy smoke-tested live; no browser/Playwright tests. Evaluation Center reads saved benchmark files (no invented numbers). Security shows live approvals + real audit trail. Settings manages the plugin registry; Repository shows the token-minimizing context build live. |
@@ -137,9 +137,9 @@ when auth is enabled. Demo-grade user store; swap for a real IdP in production.
 
 ## Honest gaps (not claimed as done)
 Password hashing / real identity provider (credentials are env-var, demo-grade); Redis (PostgreSQL persistence is
-wired, Redis is not); live Docker sandbox container run. The two Python "latest version" live-eval errors trace to
-version-table retrieval. Live-eval samples are small — indicative, not precise rates.
-125 Python tests + 16 Playwright E2E tests pass.
+wired, Redis is not). The two Python "latest version" live-eval errors trace to version-table retrieval.
+Live-eval samples are small — indicative, not precise rates.
+130 Python tests (incl. 5 live Docker sandbox) + 16 Playwright E2E tests pass.
 
 ## End-to-end browser tests
 `cd apps/web && npm run e2e` (needs `npx playwright install chromium` once). Playwright starts the mock-mode API
