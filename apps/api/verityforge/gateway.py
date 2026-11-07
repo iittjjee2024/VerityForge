@@ -12,7 +12,7 @@ from typing import Callable
 import httpx
 
 from .budget import BudgetManager, estimate_cost
-from .security import SecurityContext, check_remote_allowed, redact_secrets
+from .security import AUDIT, SecurityContext, check_remote_allowed, redact_secrets
 
 
 class ProviderError(Exception):
@@ -176,7 +176,10 @@ class ModelGateway:
     def complete(self, ctx: SecurityContext, req: ChatRequest) -> ChatResponse:
         candidates = self.select(ctx, req)
         if not candidates:
-            if ctx.confidential:
+            if ctx.confidential and req.contains_repo_content:
+                # The most important block must be on the record: remote models were filtered out by policy.
+                AUDIT.record("confidential_egress_blocked", "warning", user=ctx.user_id, repo=ctx.repo_id,
+                             detail="No local model; confidential request refused (fail closed), nothing sent")
                 raise ProviderError("No local model available; confidential task paused (fail closed).", False)
             raise ProviderError("No healthy model available; task paused.", False)
         t0 = time.monotonic()

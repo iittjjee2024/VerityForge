@@ -141,3 +141,24 @@ def test_optimized_uses_far_fewer_tokens_than_baseline_same_outcome(tmp_path):
     base = agent(tmp_path, scripted([GOOD]), optimized=False).run(AgentTask("add limit to list_products", ctx))
     assert opt.state == base.state == State.COMPLETED
     assert opt.usage.input_tokens < base.usage.input_tokens * 0.5
+
+
+def test_agent_requests_a_generous_output_budget_and_low_reasoning(tmp_path):
+    """1024 tokens truncated multi-file JSON patches mid-reply on a reasoning model; a retry at the same limit
+    cannot succeed, so the agent must ask for a realistic budget up front."""
+    ctx = repo(tmp_path)
+    seen = []
+
+    def responder(model, req):
+        seen.append((req.max_output_tokens, req.reasoning_effort))
+        return json.dumps(GOOD)
+
+    prov = MockProvider(responder=responder)
+    agent(tmp_path, prov).run(AgentTask("add limit to list_products", ctx))
+    assert seen and seen[0][0] >= 4096 and seen[0][1] == "low"
+
+
+def test_string_test_command_from_model_is_split_into_argv(tmp_path):
+    ctx = repo(tmp_path)
+    t = agent(tmp_path, scripted([{**GOOD, "test_command": "pytest -q"}])).run(AgentTask("add limit", ctx))
+    assert t.state == State.COMPLETED and t.test_runs[-1]["command"] == ["pytest", "-q"]

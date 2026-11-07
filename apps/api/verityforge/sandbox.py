@@ -6,6 +6,10 @@ from dataclasses import dataclass
 
 from .security import Action, ApprovalGate, SecurityContext
 
+# The single approval key for running a command in the sandbox. The agent requests approval with this target and
+# run_in_sandbox enforces the same one. The image is host config (not model-controlled), so it is not part of the key.
+SANDBOX_TARGET = "sandbox"
+
 
 @dataclass
 class SandboxLimits:
@@ -30,7 +34,7 @@ def build_docker_command(ctx: SecurityContext, image: str, command: list[str],
 
 def run_in_sandbox(ctx: SecurityContext, gate: ApprovalGate, approval_id: str | None, image: str,
                    command: list[str], limits: SandboxLimits | None = None) -> dict:
-    gate.enforce(approval_id, Action.RUN_COMMAND, image, " ".join(command))
+    gate.enforce(approval_id, Action.RUN_COMMAND, SANDBOX_TARGET, " ".join(command))
     l = limits or SandboxLimits()
     try:
         r = subprocess.run(build_docker_command(ctx, image, command, l), capture_output=True, text=True,

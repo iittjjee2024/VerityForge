@@ -140,7 +140,13 @@ auth is enabled. Credential store is env-var based; a real IdP is future work.
 Real identity provider / credential rotation (credentials are PBKDF2-hashed but stored in an env var); Redis
 (PostgreSQL persistence is wired, Redis is not). The two Python "latest version" live-eval errors trace to
 version-table retrieval. Live-eval samples are small — indicative, not precise rates.
-134 Python tests (incl. 5 live Docker sandbox) + 16 Playwright E2E tests pass.
+151 Python tests (incl. live Docker sandbox and a real agent→sandbox integration test) + 16 Playwright E2E tests pass.
+
+## Demo
+See `DEMO.md`: setup, a 4-minute recording script, and results from live runs of all five scenarios. Scenario A
+(the full coding task: pagination across backend, frontend, and tests) completed in **3 of 5** live runs on a free
+model, with every failure reported honestly. Raw output is in `demo/transcripts/`. Running the real end-to-end path
+surfaced 9 defects that the unit and browser tests had missed, all fixed with regression tests (listed in DEMO.md §5).
 
 ## End-to-end browser tests
 `cd apps/web && npm run e2e` (needs `npx playwright install chromium` once). Playwright starts the mock-mode API

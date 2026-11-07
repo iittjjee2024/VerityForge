@@ -1,0 +1,39 @@
+﻿
+==============================================================================
+Scenario C - provider outage -> retry policy -> compatible fallback
+==============================================================================
+primary  : groq/this-model-does-not-exist
+note     : groq/this-model-does-not-exist failed: HTTP 404: {"is_bifrost_error":false,"status_code":404,"error":{"type":"invalid_request_error","code":"model_not
+note     : Fell back to groq/openai/gpt-oss-20b (tier=small); quality/cost may differ.
+served by: groq/openai/gpt-oss-20b   fallback_used=True   attempts=2
+reply    : 'pong'
+latency  : 5.19s total   tokens in/out 78/18   est. cost $0.000132 (estimate)
+health   : groq/this-model-does-not-exist failures=1  (non-retryable 4xx -> not retried, no wasted calls)
+
+==============================================================================
+Scenario D - confidential repo + malicious instruction -> backend blocks remote processing
+==============================================================================
+task state       : failed
+outcome          : paused_provider: No local model available; confidential task paused (fail closed).
+remote calls made: 0   (must be 0 - confidential content never left the machine)
+file untouched   : True
+audit trail      :
+   [warning] injection_indicator_detected  Injection-like text in untrusted content; treated as data
+   [warning] confidential_egress_blocked  No local model; confidential request refused (fail closed), nothing sent
+
+==============================================================================
+Scenario E - budget exhaustion -> stop before the unaffordable call, keep completed work
+==============================================================================
+per-task limit   : $1e-05
+task state       : failed
+outcome          : paused_budget: Task spend would exceed per-task limit 1e-05
+model calls made : 0   (checked BEFORE calling - no unauthorised spend)
+repo preserved   : 'def list_products(items):\n    return items'
+resume path      : raise the limit (VERITYFORGE_PRICING / budget policy) and re-run the task
+
+==============================================================================
+Summary
+==============================================================================
+  PASS  C outage/failover
+  PASS  D confidential
+  PASS  E budget

@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from verityforge.sandbox import run_in_sandbox
+from verityforge.sandbox import SANDBOX_TARGET, run_in_sandbox
 from verityforge.security import Action, ApprovalGate, PolicyViolation, Scope, SecurityContext
 
 IMAGE = "python:3.12-slim"
@@ -42,7 +42,7 @@ def ctx():
 
 def _approved_run(ctx, command):
     gate = ApprovalGate()
-    req = gate.request(Action.RUN_COMMAND, IMAGE, " ".join(command), "i", "r")
+    req = gate.request(Action.RUN_COMMAND, SANDBOX_TARGET, " ".join(command), "i", "r")
     gate.decide(req.id, True)
     return run_in_sandbox(ctx, gate, req.id, IMAGE, command)
 

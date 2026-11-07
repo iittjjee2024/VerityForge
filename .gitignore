@@ -20,3 +20,6 @@ benchmarks/live/evidence_cache_*.json
 apps/web/test-results/
 apps/web/playwright-report/
 apps/web/.playwright/
+
+# TypeScript incremental build cache
+*.tsbuildinfo
