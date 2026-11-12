@@ -61,7 +61,7 @@ Conflicting sources are shown side by side. Missing evidence is reported as unve
 | Data | PostgreSQL + pgvector schema; SQLite / PostgreSQL persistence for telemetry and audit |
 | Execution | Docker sandbox: no network, read-only root, non-root, all capabilities dropped, resource limits |
 | Auth | HMAC-signed bearer tokens, PBKDF2-HMAC-SHA256 password hashing |
-| Testing | pytest (151), Playwright (16) |
+| Testing | pytest (160), Playwright (16) |
 | Deployment | Docker Compose |
 
 ## 5. Features delivered
@@ -90,7 +90,7 @@ Conflicting sources are shown side by side. Missing evidence is reported as unve
 | Code retrieval | Recall@3 rose from 0.143 to 1.0 with BM25 chunk retrieval |
 | Full coding task (pagination: backend, frontend and tests) | Completed and test-verified in live runs; runs that fell short were reported as failures, never as false success |
 | Outage, confidential and budget scenarios | All pass live: fallback with no wasted retries; 0 remote calls for a confidential repo; stopped before an unaffordable call |
-| Automated tests | **151 pytest + 16 Playwright**, all passing |
+| Automated tests | **160 pytest + 16 Playwright**, all passing |
 
 Evaluation data and saved results: `benchmarks/`.
 
@@ -101,7 +101,7 @@ Evaluation data and saved results: `benchmarks/`.
   - Citations are verified, so a judge verdict with a fabricated source is discarded.
   - Failover respects security scope, so a confidential task can never fail over to a remote model.
 - **Technical execution:**
-  - 167 automated tests.
+  - 181 automated tests (165 pytest + 16 Playwright).
   - Live Bifrost, Groq, Gemini, Tavily and Docker.
   - Held-out evaluation against independent ground truth.
   - Every defect found in live runs was fixed with a regression test.

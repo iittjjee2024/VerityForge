@@ -101,6 +101,17 @@ def is_test_path(path: str) -> bool:
     return bool(_TEST_PATH.search(path.replace("\\", "/")))
 
 
+# "update the frontend" / "change the UI" (the task names the client side as a deliverable)
+_ASKS_FOR_FRONTEND = re.compile(r"\b(front[- ]?end|ui|user interface|client[- ]side|web page|webpage)\b", re.I)
+_FRONTEND_PATH = re.compile(r"(^|/)(frontend|web|ui|client|components|pages|views)/|"
+                            r"\.(jsx?|tsx|vue|svelte|html?|css|scss)$")
+
+
+def is_frontend_path(path: str) -> bool:
+    p = path.replace("\\", "/")
+    return bool(_FRONTEND_PATH.search(p)) and not is_test_path(p)
+
+
 def normalize_command(value) -> list[str]:
     """Models return the test command as a list OR a plain string ("pytest -q"). Always produce an argv list.
     (A string used as a list would be split into characters: 'p','y','t','e','s','t'...)"""
@@ -154,7 +165,10 @@ class CodingAgent:
                     task_id=t.id, complexity=complexity, contains_repo_content=True,
                     # Multi-file patches are long JSON, and reasoning models spend hidden tokens first. 1024 was
                     # truncating mid-JSON (a retry at the same limit cannot succeed).
-                    max_output_tokens=self.limits.max_output_tokens, reasoning_effort="low"))
+                    max_output_tokens=self.limits.max_output_tokens, reasoning_effort="low",
+                    # Long code inside JSON strings made the model drop a closing brace in live runs; JSON mode
+                    # makes the provider return syntactically valid JSON.
+                    json_mode=True))
             except BudgetExceeded as e:
                 raise _Stop(State.FAILED, f"paused_budget: {e.reason}") from e
             except ProviderError as e:
@@ -263,6 +277,9 @@ class CodingAgent:
         unmet = []
         if _ASKS_FOR_TESTS.search(t.objective) and not any(is_test_path(p) for p in t.touched):
             unmet.append("tests were requested but no test file was added or changed")
+        # Observed live: tests passed and a test was added, but the requested frontend change was never made.
+        if _ASKS_FOR_FRONTEND.search(t.objective) and not any(is_frontend_path(p) for p in t.touched):
+            unmet.append("a frontend change was requested but no frontend file was changed")
         return unmet
 
     def _test(self, t: AgentTask, command: list[str]) -> dict:

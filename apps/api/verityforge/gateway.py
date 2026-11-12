@@ -29,6 +29,7 @@ class ChatRequest:
     max_output_tokens: int = 1024
     contains_repo_content: bool = False
     reasoning_effort: str | None = None  # "low"/"medium"/"high" for reasoning models; passed through if set
+    json_mode: bool = False  # ask the provider for syntactically valid JSON (response_format=json_object)
 
 
 @dataclass
@@ -95,6 +96,8 @@ class BifrostProvider(ModelProvider):
         payload = {"model": model, "messages": req.messages, "max_tokens": req.max_output_tokens}
         if req.reasoning_effort:
             payload["reasoning_effort"] = req.reasoning_effort
+        if req.json_mode:
+            payload["response_format"] = {"type": "json_object"}
         try:
             r = httpx.post(f"{self.base_url}/v1/chat/completions", json=payload, headers=headers, timeout=self.timeout)
         except httpx.TimeoutException as e:
@@ -104,7 +107,10 @@ class BifrostProvider(ModelProvider):
         if r.status_code == 429 or r.status_code >= 500:
             raise ProviderError(f"HTTP {r.status_code}")
         if r.status_code >= 400:
-            raise ProviderError(f"HTTP {r.status_code}: {redact_secrets(r.text[:200])}", retryable=False)
+            # In JSON mode the provider rejects a malformed generation with a 400 "json_validate_failed". That is a
+            # transient sampling failure, not a bad request: a retry usually succeeds, so don't fail the task on it.
+            transient = req.json_mode and "json_validate_failed" in r.text
+            raise ProviderError(f"HTTP {r.status_code}: {redact_secrets(r.text[:200])}", retryable=transient)
         try:
             data = r.json()
             u = data.get("usage", {})

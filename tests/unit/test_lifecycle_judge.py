@@ -87,3 +87,64 @@ def test_engine_past_eol_lifecycle_is_contradicted_with_correction():
                        "quote": "PostgreSQL 12 reached end of life 2024-11-14."})
     r = VerificationEngine(MockResearch([PG]), judge=j).verify("PostgreSQL 12 is still supported.")["claims"][0]
     assert r.status == "Contradicted" and "end-of-life" in r.correction
+
+
+# ---- found in a demo rehearsal: nodejs.org says "Node.js 18 ... are End-Of-Life" but gives no date -----------
+NODE = Source("https://nodejs.org/en/blog/announcements/node-18-eol-support", "Node 18 EOL",
+              "Node.js 18 and all earlier versions are End-Of-Life. They are now completely unsupported.", None)
+NODE_QUOTE = "Node.js 18 and all earlier versions are End-Of-Life. They are now completely unsupported."
+
+
+def test_date_supplied_from_memory_is_rejected():
+    # The model "knows" 2025-04-30, but the evidence never says it -> must not be trusted.
+    j, _ = judge_with({"eol_date": "2025-04-30", "source_url": NODE.url, "quote": NODE_QUOTE})
+    assert j.extract_eol("Node.js 18 is still supported", [NODE], today=TODAY) is None
+
+
+def test_explicit_end_of_life_without_date_is_accepted_as_ended():
+    j, _ = judge_with({"eol_date": "ended", "source_url": NODE.url, "quote": NODE_QUOTE})
+    v = j.extract_eol("Node.js 18 is the current LTS release of Node.js", [NODE], today=TODAY)
+    assert v is not None and v["stance"] == "contradicts" and v["eol_date"] == "ended"
+
+
+def test_ended_requires_the_exact_version_in_the_quote():
+    s = Source("https://ex.example/n", "n", "Node.js 16 is End-Of-Life and unsupported.", None)
+    j, _ = judge_with({"eol_date": "ended", "source_url": s.url, "quote": "Node.js 16 is End-Of-Life and unsupported."})
+    # claim is about 18, quote is about 16 -> reject (and "16" must not match inside "160" etc.)
+    assert j.extract_eol("Node.js 18 is still supported", [s], today=TODAY) is None
+
+
+def test_ended_requires_explicit_end_of_life_wording():
+    s = Source("https://ex.example/n", "n", "Node.js 18 was released with many new features for developers.", None)
+    j, _ = judge_with({"eol_date": "ended", "source_url": s.url,
+                       "quote": "Node.js 18 was released with many new features for developers."})
+    assert j.extract_eol("Node.js 18 is still supported", [s], today=TODAY) is None
+
+
+def test_engine_reports_ended_verdict_with_cited_correction():
+    j, _ = judge_with({"eol_date": "ended", "source_url": NODE.url, "quote": NODE_QUOTE})
+    r = VerificationEngine(MockResearch([NODE]), judge=j).verify(
+        "Node.js 18 is the current LTS release of Node.js.")["claims"][0]
+    assert r.status == "Contradicted" and "no date given" in r.explanation
+    assert r.correction.startswith("Reached end-of-life; source https://nodejs.org")
+
+
+def test_us_and_ordinal_date_formats_are_recognised():
+    """Found in a demo rehearsal: aws.amazon.com writes 'reached end of life on April 30, 2025'; the US
+    'Month D, YYYY' form was missing, so a correct, quoted date was rejected as unsupported."""
+    from verityforge.judge import _date_in_text
+    d = date(2025, 4, 30)
+    for text in ("reached end of life on April 30, 2025", "on April 30th, 2025", "Apr 30 2025",
+                 "30th April 2025", "30 Apr 2025", "2025-04-30", "April 2025"):
+        assert _date_in_text(d, text), text
+    assert not _date_in_text(d, "reached end of life on April 3, 2025")   # a different day must not match
+    assert not _date_in_text(d, "April 30, 2024")                         # nor a different year
+
+
+def test_aws_style_quote_is_accepted_end_to_end():
+    s = Source("https://aws.amazon.com/blogs/devops/node18", "AWS",
+               "AWS CDK will no longer support Node.js 18.x, which reached end of life on April 30, 2025.", None)
+    j, _ = judge_with({"eol_date": "2025-04-30", "source_url": s.url,
+                       "quote": "AWS CDK will no longer support Node.js 18.x, which reached end of life on April 30, 2025."})
+    v = j.extract_eol("Node.js 18 is the current LTS release of Node.js", [s], today=TODAY)
+    assert v is not None and v["stance"] == "contradicts" and v["eol_date"] == "2025-04-30"

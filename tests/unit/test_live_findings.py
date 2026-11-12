@@ -21,7 +21,25 @@ def test_dotted_names_are_not_split_into_sentences():
     assert "Node.js 18 is the current LTS release of Node.js" in texts
     assert "Node.js" in cl[0].entities
     q = build_query(cl[0])
-    assert "Node.js" in q and "18" not in q   # the asserted version must not leak into the search query
+    # Lifecycle claim: the version is the SUBJECT ("is Node.js 18 supported?"), so it must be in the query.
+    # (Found in a demo rehearsal: without it, Tavily returned general Node.js pages that never mention v18.)
+    assert cl[0].category == "lifecycle" and "Node.js 18" in q and "end of life" in q
+
+
+def test_non_lifecycle_claims_still_strip_asserted_values():
+    # "latest version is 3.9" ASSERTS 3.9; searching for "3.9" would bias results toward confirming it.
+    v = extract_claims("Python 3.9 is the latest stable version of Python.")[0]
+    assert v.category != "lifecycle" and "3.9" not in build_query(v)
+    p = extract_claims("The Pro plan of Library X costs $19 per month.")[0]
+    assert "19" not in build_query(p)
+
+
+def test_lifecycle_query_names_exact_version_for_each_product():
+    for text, want in [("PostgreSQL 12 is still supported.", "PostgreSQL 12"),
+                       ("Python 3.12 is still supported.", "Python 3.12"),
+                       ("Django 5.0 is still supported.", "Django 5.0")]:
+        c = extract_claims(text)[0]
+        assert c.category == "lifecycle" and want in build_query(c), (text, build_query(c))
 
 
 def test_stable_fact_without_copula_is_extracted_and_not_researched():

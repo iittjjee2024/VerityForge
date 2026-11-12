@@ -61,10 +61,25 @@ def _gateway() -> ModelGateway:
 
 gateway = _gateway()
 
+
+def _judge_gateway() -> ModelGateway:
+    """The evidence judge gets its OWN model list: VERITYFORGE_JUDGE_MODEL first (the held-out evaluation used
+    Gemini flash-lite, a non-reasoning model that is not starved by Groq's reasoning-token limits), then the agent's
+    models as fallback. Shares the same budget, so judge spend still counts against the limits."""
+    jm = os.getenv("VERITYFORGE_JUDGE_MODEL")
+    if not jm or all(m.provider.name == "mock" for m in gateway.models):
+        return gateway
+    bf = next(m.provider for m in gateway.models if m.provider.name == "bifrost")
+    return ModelGateway([ModelSpec(jm, bf, "small")] + [m for m in gateway.models if m.name != jm], budget)
+
+
+judge_gateway = _judge_gateway()
+
 # Route telemetry and audit events to the store (no-op for MemoryStore).
 from .security import AUDIT  # noqa: E402
 
 gateway.sink = store.record_request
+judge_gateway.sink = store.record_request
 AUDIT.sink = store.record_audit
 
 
@@ -144,7 +159,7 @@ def health():
 def verify(body: VerifyIn):
     research, mode = _research()
     live = any(m.provider.name != "mock" for m in gateway.models)
-    judge = LLMJudge(gateway, SecurityContext("local", "verify", Scope.STANDARD, "")) if live else None
+    judge = LLMJudge(judge_gateway, SecurityContext("local", "verify", Scope.STANDARD, "")) if live else None
     rep = VerificationEngine(research, judge=judge).verify(body.answer)
     rep["research_provider"] = mode
     rep["claims"] = [{"claim": vars(r.claim), **{k: v for k, v in vars(r).items() if k != "claim"}}
@@ -329,7 +344,8 @@ def analytics():
     # With a store, every request (including this session's) is persisted, so read from the store to get
     # the full cross-restart history. Without a store, fall back to the in-memory session log.
     persisted = store.requests(5000)
-    log = persisted if persisted else gateway.log
+    session = gateway.log + (judge_gateway.log if judge_gateway is not gateway else [])
+    log = persisted if persisted else session
     per_model: dict = {}
     for r in log:
         m = per_model.setdefault(r["model"], {"provider": r["provider"], "requests": 0, "input_tokens": 0,

@@ -143,3 +143,64 @@ def test_injection_outside_selected_excerpt_is_still_detected(tmp_path):
     t = agent(tmp_path, scripted([GOOD])).run(AgentTask("add limit to list_products", c))
     new = [e["event"] for e in sec.AUDIT.events(500)[: len(sec.AUDIT.events(500)) - before]]
     assert "injection_indicator_detected" in new and any("injection" in e for e in t.events)
+
+
+# ---- found in a demo rehearsal --------------------------------------------------------------------
+def test_is_frontend_path():
+    from verityforge.agent import is_frontend_path
+    for p in ("frontend/products.js", "web/app/page.tsx", "src/components/List.vue", "index.html", "ui/a.ts"):
+        assert is_frontend_path(p), p
+    for p in ("shop/api.py", "tests/test_api.py", "web/a.test.ts", "server/db.ts"):
+        assert not is_frontend_path(p), p
+
+
+def test_frontend_requested_but_untouched_is_not_success(tmp_path):
+    """Live run: tests passed and a test file was added, but 'update the frontend' was never done."""
+    c = repo(tmp_path)
+    backend_and_tests_only = {**GOOD, "edits": GOOD["edits"] + [TEST_FILE]}
+    still_no_frontend = {**GOOD, "edits": [{"path": "products.py", "old": "    return items[:limit]",
+                                            "new": "    return items[:limit]  # still no frontend"}]}
+    t = agent(tmp_path, scripted([backend_and_tests_only, still_no_frontend, still_no_frontend])).run(
+        AgentTask("Add a limit to list_products, update the frontend, and add tests", c))
+    assert t.state == State.FAILED and "frontend change was requested" in t.outcome
+
+
+def test_frontend_requested_and_done_completes(tmp_path):
+    c = repo(tmp_path)
+    (tmp_path / "frontend").mkdir()
+    (tmp_path / "frontend" / "list.js").write_text("export const LIMIT = 0;\n")
+    full = {**GOOD, "edits": GOOD["edits"] + [TEST_FILE, {"path": "frontend/list.js", "old": "LIMIT = 0",
+                                                          "new": "LIMIT = 10"}]}
+    t = agent(tmp_path, scripted([full])).run(
+        AgentTask("Add a limit to list_products, update the frontend, and add tests", c))
+    assert t.state == State.COMPLETED and t.usage.model_calls == 1
+
+
+def test_agent_requests_json_mode(tmp_path):
+    c = repo(tmp_path)
+    seen = []
+    from verityforge.gateway import MockProvider
+
+    def responder(m, req):
+        seen.append(req.json_mode)
+        import json
+        return json.dumps(GOOD)
+
+    agent(tmp_path, MockProvider(responder=responder)).run(AgentTask("add limit to list_products", c))
+    assert seen and all(seen)
+
+
+def test_json_validate_failed_is_retryable_in_json_mode(monkeypatch):
+    import httpx
+    from verityforge.gateway import BifrostProvider, ChatRequest, ProviderError
+    body = {"error": {"code": "json_validate_failed", "message": "Failed to generate JSON"}}
+    monkeypatch.setattr(httpx, "post", lambda *a, **k: httpx.Response(400, json=body,
+                                                                      request=httpx.Request("POST", "http://x")))
+    with pytest.raises(ProviderError) as e:
+        BifrostProvider("http://x").complete("m", ChatRequest([{"role": "user", "content": "x"}], json_mode=True))
+    assert e.value.retryable
+    with pytest.raises(ProviderError) as e2:  # an ordinary 400 is still a hard error
+        monkeypatch.setattr(httpx, "post", lambda *a, **k: httpx.Response(400, json={"error": "bad"},
+                                                                          request=httpx.Request("POST", "http://x")))
+        BifrostProvider("http://x").complete("m", ChatRequest([{"role": "user", "content": "x"}], json_mode=True))
+    assert not e2.value.retryable

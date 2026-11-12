@@ -7,9 +7,9 @@ import { defineConfig, devices } from "@playwright/test";
  * Playwright starts both servers; tests exercise the real UI + REST proxy.
  * The API runs with VERITYFORGE_MOCK_MODE=true so every run is reproducible.
  */
-// The built next.config.mjs proxies /api/* to VERITYFORGE_API_URL (default http://localhost:8000).
-// We bake that env into the web server below AND default the API to 8000 so the proxy resolves either way.
-const API_PORT = Number(process.env.VF_E2E_API_PORT ?? 8000);
+// Own ports, so the suite can run while the live demo stack is up on 8000/3000. The web server's runtime proxy
+// (app/api/[...path]/route.ts) reads VERITYFORGE_API_URL per request, so pointing it at the test API works.
+const API_PORT = Number(process.env.VF_E2E_API_PORT ?? 8111);
 const WEB_PORT = 3111;
 
 // Resolve the repo venv python to an absolute path (relative exe paths don't resolve via the shell on Windows).

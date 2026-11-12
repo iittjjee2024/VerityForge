@@ -1,7 +1,3 @@
-/** Proxy /api/* to the FastAPI service so the browser never needs CORS. */
-const API = process.env.VERITYFORGE_API_URL || "http://localhost:8000";
-export default {
-  async rewrites() {
-    return [{ source: "/api/:path*", destination: `${API}/api/:path*` }];
-  },
-};
+/** /api/* is proxied to the FastAPI service at RUNTIME by app/api/[...path]/route.ts (reads VERITYFORGE_API_URL
+ * per request). A build-time rewrite was used before, but it froze the API address into the build. */
+export default {};

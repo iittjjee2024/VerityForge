@@ -32,3 +32,5 @@ submission/
 # Invalid live-eval runs (every judge call was rate-limited; see benchmarks/live/FINDINGS.md)
 benchmarks/live/results_dev_fix4-passages.json
 benchmarks/live/results_dev_fix4-validated.json
+# Local archives (e.g. demo bundles)
+*.zip

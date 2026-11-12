@@ -208,9 +208,26 @@ _QUERY_HINT = {"software_api": "current version official documentation",
                "statistics": "latest data source"}
 
 
+def _subject_version(c: Claim) -> tuple[str, str] | None:
+    """For "<Product> <version> ..." claims, return (product, version), e.g. ("Node.js", "18")."""
+    for e in c.entities:
+        m = re.search(rf"{re.escape(e)}\s+v?(\d+(?:\.\d+)*)\b", c.text)
+        if m:
+            return e, m.group(1)
+    return None
+
+
 def build_query(c: Claim) -> str:
     """Search with the claim's own wording minus the asserted values (so the query cannot bias results toward
-    confirming them), plus a category hint that steers toward authoritative pages."""
+    confirming them), plus a category hint that steers toward authoritative pages.
+
+    Exception, lifecycle claims: in "Node.js 18 is still supported" the version is the SUBJECT being asked
+    about, not an asserted value. Stripping it searched for "Node.js" in general, and pages about version 18
+    only turned up by luck. So lifecycle queries name the exact version."""
+    if c.category == "lifecycle":
+        sv = _subject_version(c)
+        if sv:
+            return f"{sv[0]} {sv[1]} end of life date support status"
     text = _PRICE.sub("", _PERCENT.sub("", _VERSION.sub("", c.text)))
     for e in c.entities:  # bare major versions attached to a name ("Node.js 18")
         text = re.sub(rf"({re.escape(e)})\s+v?\d+(?:\.\d+)*\b", r"\1", text)
@@ -342,9 +359,14 @@ class VerificationEngine:
             # Supported/not is decided in code from the extracted EOL date; source recency is irrelevant.
             status = "Verified Current" if supports else "Contradicted"
             eol = v["eol_date"]
-            expl = (f"Two-step lifecycle check ({v['model']}): extracted end-of-life = {eol}, compared to "
-                    f"{v['today']} in code. {'Still supported.' if supports else 'Past end-of-life.'}")
-            correction = None if supports else f'Reached end-of-life {eol}; source {src.url} states: "{quote}"'
+            if eol == "ended":  # source states the version is end-of-life without giving a date
+                expl = (f"Two-step lifecycle check ({v['model']}): the source states this version has reached "
+                        f"end-of-life (no date given; confirmed in code from the verbatim quote).")
+                correction = f'Reached end-of-life; source {src.url} states: "{quote}"'
+            else:
+                expl = (f"Two-step lifecycle check ({v['model']}): extracted end-of-life = {eol}, compared to "
+                        f"{v['today']} in code. {'Still supported.' if supports else 'Past end-of-life.'}")
+                correction = None if supports else f'Reached end-of-life {eol}; source {src.url} states: "{quote}"'
         else:
             rec = recency_score(src.published_date, max_age)
             status = "Verified Current" if supports else "Contradicted"

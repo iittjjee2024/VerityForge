@@ -36,7 +36,10 @@ GUIDANCE = {
 LIFECYCLE_SYSTEM = (
     "You extract one date from web evidence. The user names a software version. Find the END-OF-LIFE date "
     "(also called EOL, end of support, or security end) for THAT EXACT version in the evidence. "
-    'Reply ONLY with JSON: {"eol_date":"YYYY-MM-DD"|"none"|"unknown","source_url":str,"quote":str}. '
+    'Reply ONLY with JSON: {"eol_date":"YYYY-MM-DD"|"ended"|"none"|"unknown","source_url":str,"quote":str}. '
+    "Only give a date that is WRITTEN in the evidence; never supply a date from memory. "
+    "Use \"ended\" if the evidence explicitly says that exact version has already reached end-of-life / is no "
+    "longer supported but gives no date. "
     "Use \"none\" if the evidence says that version has no end-of-life / is supported indefinitely. "
     "Use \"unknown\" if the evidence does not give an end-of-life date for that exact version. "
     "Do NOT reason about whether it is still supported today; only report the date. "
@@ -48,16 +51,32 @@ _MONTHS = ["january", "february", "march", "april", "may", "june", "july", "augu
            "november", "december"]
 
 
+_EOL_WORDS = re.compile(r"(?i)\b(end[- ]of[- ]life|eol|end of support|no longer supported|unsupported|"
+                        r"reached (its )?end)\b")
+
+
+def _version_in(text: str) -> str | None:
+    """The version token in a claim like 'Node.js 18 is still supported' -> '18' (dotted names ignored)."""
+    m = re.search(r"(?<![\w.])v?(\d+(?:\.\d+)*)(?![\w.])", re.sub(r"\b\w+\.js\b", " ", text))
+    return m.group(1) if m else None
+
+
 def _date_in_text(d: date, text: str) -> bool:
     """True if date d appears in text in a common format: ISO (2027-11-11), '11 Nov 2027', 'November 2027', '11/2027'.
     Guards against the model inventing an EOL date not present in the cited evidence."""
-    t = _norm(text)
+    # Normalise: lowercase, drop commas and ordinal suffixes, so "April 30th, 2025" and "30 April 2025" both
+    # become comparable ("april 30 2025" / "30 april 2025").
+    t = re.sub(r"(\d+)(st|nd|rd|th)\b", r"\1", _norm(text).replace(",", " "))
+    t = re.sub(r"\s+", " ", t)
     mon_full = _MONTHS[d.month - 1]
     mon_abbr = mon_full[:3]
     year = str(d.year)
+    day_forms = []
+    for mon in (mon_full, mon_abbr):
+        for day in {str(d.day), f"{d.day:02d}"}:
+            day_forms += [f"{day} {mon} {year}", f"{mon} {day} {year}"]   # EU and US order
     forms = [d.isoformat(), f"{d.year}-{d.month:02d}", f"{mon_full} {year}", f"{mon_abbr} {year}",
-             f"{d.day} {mon_full} {year}", f"{d.day} {mon_abbr} {year}",
-             f"{d.day:02d} {mon_abbr} {year}", f"{d.month}/{year}", f"{d.month:02d}/{year}"]
+             f"{d.month}/{year}", f"{d.month:02d}/{year}"] + day_forms
     return any(f in t for f in forms)
 
 
@@ -142,6 +161,15 @@ class LLMJudge:
             return None
         if raw == "none":  # explicitly no EOL -> supported
             eol, supported = None, True
+        elif raw == "ended":
+            # No date in the evidence, but the source says outright that this version is end-of-life. Accept ONLY
+            # if code confirms the (already verbatim-verified) quote names the exact version AND uses explicit
+            # end-of-life wording; otherwise the model is guessing.
+            ver = _version_in(version_text)
+            if not (ver and re.search(rf"(?<![\d.]){re.escape(ver)}(?![\d.])", quote) and _EOL_WORDS.search(quote)):
+                self.stats["rejected_citation"] += 1
+                return None
+            eol, supported = None, False
         elif _DATE_RE.fullmatch(raw):
             try:
                 eol = date.fromisoformat(raw if len(raw) == 10 else raw + "-01")  # YYYY-MM -> first of month
