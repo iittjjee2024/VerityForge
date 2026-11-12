@@ -1,7 +1,7 @@
 # VerityForge — Hackathon Submission
 
 **Repository:** https://github.com/iittjjee2024/VerityForge
-**Slides:** `submission/VerityForge.pptx` · **Demo guide:** `DEMO.md` · **Demo video:** _add link after recording_
+**Demo video:** _add link after recording_
 
 One platform that solves both hackathon problem statements:
 1. **A coding agent that gets the job done on the fewest tokens.**
@@ -92,7 +92,7 @@ Conflicting sources are shown side by side. Missing evidence is reported as unve
 | Outage, confidential and budget scenarios | All pass live: fallback with no wasted retries; 0 remote calls for a confidential repo; stopped before an unaffordable call |
 | Automated tests | **151 pytest + 16 Playwright**, all passing |
 
-Raw run output: `demo/transcripts/`. Evaluation data: `benchmarks/`.
+Evaluation data and saved results: `benchmarks/`.
 
 ## 7. Judging criteria
 
@@ -121,15 +121,15 @@ Raw run output: `demo/transcripts/`. Evaluation data: `benchmarks/`.
 
 | Requirement | Delivered |
 |---|---|
-| Working project / demo | Full stack runs locally; five live demo scenarios (`DEMO.md`, `demo/`) |
+| Working project / demo | Full stack runs locally (see `README.md` quick start); five scenarios run live against real services |
 | Source code / repository | https://github.com/iittjjee2024/VerityForge |
 | Project description | This document and `README.md` |
 | Problem being solved | Section 1 |
 | Technologies and tools used | Section 4 |
 | How AI is used | Section 3 |
-| Demo video | Recording script in `DEMO.md` §3 (link added after recording) |
+| Demo video | _add link after recording_ |
 | Build resource: Bifrost | Used as the LLM gateway for every model call |
-| Slides | `submission/VerityForge.pptx` |
+| Slides | Provided separately with the submission |
 
 ## 9. Responsible development
 

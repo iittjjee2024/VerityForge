@@ -41,7 +41,5 @@ Tests: `.\.venv\Scripts\python -m pytest -q`, then `cd apps\web ; npm run e2e`. 
 | | |
 |---|---|
 | `SUBMISSION.md` | Hackathon submission: problem, solution, AI use, technologies, results, judging criteria |
-| `DEMO.md` | Demo setup, 4-minute recording script, live results for all five scenarios |
 | `docs/architecture` · `docs/api` · `docs/deployment` · `docs/security` | Design, API reference, deployment, security model |
 | `benchmarks/` | Token-efficiency, retrieval, verification and live held-out evaluations |
-| `submission/VerityForge.pptx` | Submission slide deck |

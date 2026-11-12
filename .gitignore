@@ -23,3 +23,12 @@ apps/web/.playwright/
 
 # TypeScript incremental build cache
 *.tsbuildinfo
+
+# Local-only: demo material and submission deck (kept on disk, not in the repo)
+demo/
+DEMO.md
+submission/
+*.pptx
+# Invalid live-eval runs (every judge call was rate-limited; see benchmarks/live/FINDINGS.md)
+benchmarks/live/results_dev_fix4-passages.json
+benchmarks/live/results_dev_fix4-validated.json
